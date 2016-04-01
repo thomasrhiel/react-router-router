@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run build-cjs",
-    "build-cjs": "rimraf lib && babel --presets react ./src/router -d lib"
+    "build-cjs": "rimraf lib && babel --presets react ./src -d lib"
   },
   "author": "Thomas Rhiel",
   "license": "MIT",
