@@ -8,7 +8,7 @@ import RouterServer from 'react-router-router/server'
 import routes from './routes'
 
 let app = express()
-let router = RouterServer(routes);
+let router = RouterServer(routes)
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -18,7 +18,7 @@ app.use(express.static('public'))
 app.use('/', router);
 
 app.listen(app.get('port'), function () {
-  console.log('Listening at port', app.get('port'));
+  console.log('Listening at port', app.get('port'))
 });
 ```
 
