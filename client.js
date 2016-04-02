@@ -14,9 +14,6 @@ var _reactRouter = require('react-router');
 
 var _reactDom = require('react-dom');
 
-// calling `match` is simply for side effects of
-// loading route/component code for the initial location
-
 exports['default'] = function (routes) {
 	var _window$location = window.location;
 	var pathname = _window$location.pathname;
