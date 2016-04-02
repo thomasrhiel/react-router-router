@@ -1,4 +1,4 @@
-import SitemakerRouter from './server'
-import SitemakerClient from './client'
+import RouterServer from './server'
+import RouterClient from './client'
 
-export { SitemakerRouter, SitemakerClient }
+export { RouterServer, RouterClient }

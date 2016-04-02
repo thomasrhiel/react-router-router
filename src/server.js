@@ -24,7 +24,7 @@ function renderSite(req, res, routes) {
 
 var router = express.Router();
 
-function SitemakerRouter(routes) {
+export default function(routes) {
 	router.get('*', function(req, res, next) {
 
 		if (typeof routes === 'function') {
@@ -35,5 +35,3 @@ function SitemakerRouter(routes) {
 	});	
 	return router;
 }
-
-export default SitemakerRouter
