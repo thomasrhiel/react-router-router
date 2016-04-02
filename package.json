@@ -4,8 +4,7 @@
   "description": "Express router middleware for React Router + Redux apps",
   "main": "lib/index.js",
   "scripts": {
-    "build": "npm run build-cjs",
-    "build-cjs": "rimraf lib && babel --presets react ./src -d lib"
+    "build": "rimraf lib && babel --presets react ./src -d lib"
   },
   "repository": "thomasrhiel/react-router-router",
   "author": "Thomas Rhiel",
