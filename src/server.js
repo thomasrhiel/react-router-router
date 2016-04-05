@@ -26,14 +26,14 @@ function renderSite(req, res, routes, store) {
 
 var router = express.Router();
 
-export default function(routes) {
+export default function(routes, store) {
 	router.get('*', function(req, res, next) {
 
 		if (typeof routes === 'function') {
 			routes = routes.call(this, req, res);
 		}
 
-		renderSite(req, res, routes);
+		renderSite(req, res, routes, store);
 	});	
 	return router;
 }

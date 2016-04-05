@@ -48,14 +48,14 @@ function renderSite(req, res, routes, store) {
 
 var router = _express2['default'].Router();
 
-exports['default'] = function (routes) {
+exports['default'] = function (routes, store) {
 	router.get('*', function (req, res, next) {
 
 		if (typeof routes === 'function') {
 			routes = routes.call(this, req, res);
 		}
 
-		renderSite(req, res, routes);
+		renderSite(req, res, routes, store);
 	});
 	return router;
 };
