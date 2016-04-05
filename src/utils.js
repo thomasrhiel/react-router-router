@@ -1,3 +1,6 @@
+import { createStore, combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
+
 export function createPage(html, opts) {
 	let params = {
 		id: 'app',
@@ -20,4 +23,12 @@ export function createPage(html, opts) {
 		</body>
 	</html>
 	`
+}
+
+export function getBasicStore() {
+	let basic_reducers = {
+		routing: routerReducer
+	}
+
+	return createStore(combineReducers(basic_reducers))
 }
