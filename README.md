@@ -42,10 +42,10 @@ import Home from './components/home'
 import About from './components/about'
 
 let routes = (
-	<Route path="/">
-		<IndexRoute component={Home} />
-		<Route path="about" component={About} />
-	</Route>
+  <Route path="/">
+    <IndexRoute component={Home} />
+    <Route path="about" component={About} />
+  </Route>
 )
 
 export default routes
@@ -59,19 +59,19 @@ import { routerReducer } from 'react-router-redux'
 
 // A sample Redux reducer
 function text(state = 'Call me Ishmael') {
-	
-	/*
-	 * Normally, a switch statement would go here,
-	 * allowing you to update the state with dispatched actions. 
-	 * For the purposes of this example, I'm simply
-	 * returning the state.
-	 */
 
-	return state
+  /*
+   * Normally, a switch statement would go here,
+   * allowing you to update the state with dispatched actions. 
+   * For the purposes of this example, I'm simply
+   * returning the state.
+   */
+
+  return state
 }
 
 export default createStore(combineReducers({
-	text,
-	routing: routerReducer
+  text,
+  routing: routerReducer
 }))
 ```
