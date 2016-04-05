@@ -25,7 +25,6 @@ var _reactRouter = require('react-router');
 var _utils = require('./utils');
 
 function renderSite(req, res, routes, store) {
-
 	if (typeof store === 'undefined') {
 		store = (0, _utils.getBasicStore)();
 	}
