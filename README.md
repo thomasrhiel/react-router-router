@@ -6,10 +6,10 @@ Simple Express.js router middleware for sites that use React Router.
 import express from 'express'
 import RouterServer from 'react-router-router/server'
 import routes from './routes'
-import store from './store' // Redux store. This is optional.
+import reducers from './reducers' // Redux reducers
 
 let app = express()
-let router = RouterServer(routes, store)
+let router = RouterServer({ routes, reducers })
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -28,9 +28,9 @@ app.listen(app.get('port'), function () {
 ```javascript
 import RouterClient from 'react-router-router/client'
 import routes from './routes'
-import store from './store' // Redux store. This is optional.
+import reducers from './reducers' // Redux reducers
 
-RouterClient(routes, store)
+RouterClient({ routes, reducers })
 ```
 
 ### Routes
@@ -51,27 +51,24 @@ let routes = (
 export default routes
 ```
 
-### Store
+### Reducers
 
 ```javascript
-import { createStore, combineReducers } from 'redux'
+import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 
 // A sample Redux reducer
-function text(state = 'Call me Ishmael') {
-
-  /*
-   * Normally, a switch statement would go here,
-   * allowing you to update the state with dispatched actions. 
-   * For the purposes of this example, I'm simply
-   * returning the state.
-   */
-
-  return state
+function text(state = 'Call me Ishmael.', action) {
+  switch (action.type) {
+    case 'UPDATE':
+      return action.value
+    default:
+      return state
+	}
 }
 
-export default createStore(combineReducers({
+export default combineReducers({
   text,
   routing: routerReducer
-}))
+})
 ```

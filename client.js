@@ -20,8 +20,10 @@ var _reactDom = require('react-dom');
 
 var _utils = require('./utils');
 
-exports['default'] = function (routes) {
-	var reducers = arguments.length <= 1 || arguments[1] === undefined ? (0, _utils.getBasicReducers)() : arguments[1];
+exports['default'] = function (params) {
+	var routes = params.routes;
+	var _params$reducers = params.reducers;
+	var reducers = _params$reducers === undefined ? (0, _utils.getBasicReducers)() : _params$reducers;
 	var _window$location = window.location;
 	var pathname = _window$location.pathname;
 	var search = _window$location.search;

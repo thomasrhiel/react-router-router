@@ -5,7 +5,8 @@ import { match, Router, browserHistory } from 'react-router'
 import { render } from 'react-dom'
 import { getBasicReducers } from './utils'
 
-export default function(routes, reducers = getBasicReducers()) {
+export default function(params) {
+	const { routes, reducers = getBasicReducers() } = params
 	const { pathname, search, hash } = window.location
 	const location = `${pathname}${search}${hash}`
 	const initialState = window.__INITIAL_STATE__
