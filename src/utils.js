@@ -4,7 +4,8 @@ import { routerReducer } from 'react-router-redux'
 export function createPage(html, opts) {
 	let params = {
 		id: 'app',
-		js_src: 'main.js'
+		js_src: 'main.js',
+		initial_state: {}
 	}
 
 	Object.assign(params, opts || {})
@@ -19,16 +20,19 @@ export function createPage(html, opts) {
 		</head>
 		<body>
 			<div id="${params.id}">${html}</div>
+			<script>
+				window.__INITIAL_STATE__ = ${JSON.stringify(params.initial_state)}
+			</script>			
 			<script src="${params.js_src}"></script>
 		</body>
 	</html>
 	`
 }
 
-export function getBasicStore() {
-	let basic_reducers = {
+export function getBasicReducers() {
+	const basic_reducers = {
 		routing: routerReducer
 	}
 
-	return createStore(combineReducers(basic_reducers))
+	return combineReducers(basic_reducers)
 }
