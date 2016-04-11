@@ -32,14 +32,14 @@ function renderSiteToString(store, renderProps) {
 	));
 }
 
-function _doRenderSite(req, res, store, renderProps, prerender, postrender) {
+function _doRenderSite(req, res, store, renderProps, beforeRenderToString, afterRenderToString) {
 	var _this = this;
 
-	prerender.call(this, req, store, function (req, store) {
+	beforeRenderToString.call(this, req, store, function (req, store) {
 		var html_string = renderSiteToString(store, renderProps);
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
-		postrender.call(_this, req, store, html_string, function (req, store, html_string) {
+		afterRenderToString.call(_this, req, store, html_string, function (req, store, html_string) {
 			var initial_state = store.getState();
 			res.status(200).send((0, _utils.createPage)(html_string, { initial_state: initial_state }));
 		});
@@ -49,8 +49,8 @@ function _doRenderSite(req, res, store, renderProps, prerender, postrender) {
 function renderSite(req, res, params) {
 	var routes = params.routes;
 	var store = params.store;
-	var prerender = params.prerender;
-	var postrender = params.postrender;
+	var beforeRenderToString = params.beforeRenderToString;
+	var afterRenderToString = params.afterRenderToString;
 
 	(0, _reactRouter.match)({ routes: routes, location: req.url }, function (error, redirectLocation, renderProps) {
 		if (error) {
@@ -58,18 +58,18 @@ function renderSite(req, res, params) {
 		} else if (redirectLocation) {
 			res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 		} else if (renderProps) {
-			_doRenderSite(req, res, store, renderProps, prerender, postrender);
+			_doRenderSite(req, res, store, renderProps, beforeRenderToString, afterRenderToString);
 		} else {
 			res.status(404).send('Not found');
 		}
 	});
 }
 
-function defaultPrerender(req, store, cb) {
+function defaultBeforeRenderToString(req, store, cb) {
 	cb.call(this, req, store);
 }
 
-function defaultPostrender(req, store, html_string, cb) {
+function defaultAfterRenderToString(req, store, html_string, cb) {
 	cb.call(this, req, store, html_string);
 }
 
@@ -79,8 +79,8 @@ exports['default'] = function (params) {
 	var defaults = {
 		routes: null,
 		reducers: (0, _utils.getBasicReducers)(),
-		prerender: defaultPrerender,
-		postrender: defaultPostrender
+		beforeRenderToString: defaultBeforeRenderToString,
+		afterRenderToString: defaultAfterRenderToString
 	};
 
 	params = Object.assign(defaults, params);

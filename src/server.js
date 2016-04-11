@@ -14,12 +14,12 @@ function renderSiteToString(store, renderProps) {
 	)
 }
 
-function _doRenderSite(req, res, store, renderProps, prerender, postrender) {
-	prerender.call(this, req, store, (req, store) => {
+function _doRenderSite(req, res, store, renderProps, beforeRenderToString, afterRenderToString) {
+	beforeRenderToString.call(this, req, store, (req, store) => {
 		let html_string = renderSiteToString(store, renderProps)
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
-		postrender.call(this, req, store, html_string, (req, store, html_string) => {
+		afterRenderToString.call(this, req, store, html_string, (req, store, html_string) => {
 			const initial_state = store.getState()
 			res.status(200).send(createPage(html_string, { initial_state }))	
 		})
@@ -27,7 +27,7 @@ function _doRenderSite(req, res, store, renderProps, prerender, postrender) {
 }
 
 function renderSite(req, res, params) {
-	let { routes, store, prerender, postrender } = params
+	let { routes, store, beforeRenderToString, afterRenderToString } = params
 
 	match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
 		if (error) {
@@ -35,18 +35,18 @@ function renderSite(req, res, params) {
 		} else if (redirectLocation) {
 			res.redirect(302, redirectLocation.pathname + redirectLocation.search)
 		} else if (renderProps) {
-			_doRenderSite(req, res, store, renderProps, prerender, postrender)
+			_doRenderSite(req, res, store, renderProps, beforeRenderToString, afterRenderToString)
 		} else {
 			res.status(404).send('Not found')
 		}
 	})
 }
 
-function defaultPrerender(req, store, cb) {
+function defaultBeforeRenderToString(req, store, cb) {
 	cb.call(this, req, store)
 }
 
-function defaultPostrender(req, store, html_string, cb) {
+function defaultAfterRenderToString(req, store, html_string, cb) {
 	cb.call(this, req, store, html_string)
 }
 
@@ -56,8 +56,8 @@ export default function(params) {
 	const defaults = {
 		routes: null,
 		reducers: getBasicReducers(),
-		prerender: defaultPrerender,
-		postrender: defaultPostrender
+		beforeRenderToString: defaultBeforeRenderToString,
+		afterRenderToString: defaultAfterRenderToString
 	}
 
 	params = Object.assign(defaults, params)
