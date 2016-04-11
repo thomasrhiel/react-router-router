@@ -64,7 +64,7 @@ function text(state = 'Call me Ishmael.', action) {
       return action.value
     default:
       return state
-	}
+    }
 }
 
 export default combineReducers({
