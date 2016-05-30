@@ -2,10 +2,19 @@ import { createStore, combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 
 export function createPage(html, opts) {
+	const default_meta = (
+		`
+			<title></title>
+			<meta charset="utf-8"/>			
+			<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>
+		`
+	)
+
 	let params = {
 		id: 'app',
 		js_src: 'main.js',
-		initial_state: {}
+		initial_state: {},
+		meta: default_meta
 	}
 
 	Object.assign(params, opts || {})
@@ -14,9 +23,7 @@ export function createPage(html, opts) {
 	<!doctype html>
 	<html>
 		<head>
-			<title></title>
-			<meta charset="utf-8"/>			
-			<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>
+			${params.meta}
 		</head>
 		<body>
 			<div id="${params.id}">${html}</div>

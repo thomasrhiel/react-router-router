@@ -1,31 +1,43 @@
-'use strict';
+import { createStore, combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 
-Object.defineProperty(exports, '__esModule', {
-	value: true
-});
-exports.createPage = createPage;
-exports.getBasicReducers = getBasicReducers;
+export function createPage(html, opts) {
+	const default_meta = `
+			<title></title>
+			<meta charset="utf-8"/>			
+			<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>
+		`;
 
-var _redux = require('redux');
-
-var _reactRouterRedux = require('react-router-redux');
-
-function createPage(html, opts) {
-	var params = {
+	let params = {
 		id: 'app',
 		js_src: 'main.js',
-		initial_state: {}
+		initial_state: {},
+		meta: default_meta
 	};
 
 	Object.assign(params, opts || {});
 
-	return '\n\t<!doctype html>\n\t<html>\n\t\t<head>\n\t\t\t<title></title>\n\t\t\t<meta charset="utf-8"/>\t\t\t\n\t\t\t<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>\n\t\t</head>\n\t\t<body>\n\t\t\t<div id="' + params.id + '">' + html + '</div>\n\t\t\t<script>\n\t\t\t\twindow.__INITIAL_STATE__ = ' + JSON.stringify(params.initial_state) + '\n\t\t\t</script>\t\t\t\n\t\t\t<script src="' + params.js_src + '"></script>\n\t\t</body>\n\t</html>\n\t';
+	return `
+	<!doctype html>
+	<html>
+		<head>
+			${ params.meta }
+		</head>
+		<body>
+			<div id="${ params.id }">${ html }</div>
+			<script>
+				window.__INITIAL_STATE__ = ${ JSON.stringify(params.initial_state) }
+			</script>			
+			<script src="${ params.js_src }"></script>
+		</body>
+	</html>
+	`;
 }
 
-function getBasicReducers() {
-	var basic_reducers = {
-		routing: _reactRouterRedux.routerReducer
+export function getBasicReducers() {
+	const basic_reducers = {
+		routing: routerReducer
 	};
 
-	return (0, _redux.combineReducers)(basic_reducers);
+	return combineReducers(basic_reducers);
 }

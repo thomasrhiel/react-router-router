@@ -1,58 +1,35 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-	value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _express = require('express');
-
-var _express2 = _interopRequireDefault(_express);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = require('react-redux');
-
-var _redux = require('redux');
-
-var _reactDomServer = require('react-dom/server');
-
-var _reactRouter = require('react-router');
-
-var _utils = require('./utils');
+import express from 'express';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { renderToString } from 'react-dom/server';
+import { match, RouterContext } from 'react-router';
+import { createPage, getBasicReducers } from './utils';
 
 function renderSiteToString(store, renderProps) {
-	return (0, _reactDomServer.renderToString)(_react2['default'].createElement(
-		_reactRedux.Provider,
+	return renderToString(React.createElement(
+		Provider,
 		{ store: store },
-		_react2['default'].createElement(_reactRouter.RouterContext, renderProps)
+		React.createElement(RouterContext, renderProps)
 	));
 }
 
 function _doRenderSite(req, res, store, renderProps, beforeRenderToString, afterRenderToString) {
-	var _this = this;
-
-	beforeRenderToString.call(this, req, store, function (req, store) {
-		var html_string = renderSiteToString(store, renderProps);
+	beforeRenderToString.call(this, req, store, (req, store) => {
+		let html_string = renderSiteToString(store, renderProps);
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
-		afterRenderToString.call(_this, req, store, html_string, function (req, store, html_string) {
-			var initial_state = store.getState();
-			res.status(200).send((0, _utils.createPage)(html_string, { initial_state: initial_state }));
+		afterRenderToString.call(this, req, store, html_string, (req, store, html_string, params) => {
+			const initial_state = store.getState();
+			res.status(200).send(createPage(html_string, Object.assign(params, { initial_state })));
 		});
 	});
 }
 
 function renderSite(req, res, params) {
-	var routes = params.routes;
-	var store = params.store;
-	var beforeRenderToString = params.beforeRenderToString;
-	var afterRenderToString = params.afterRenderToString;
+	let { routes, store, beforeRenderToString, afterRenderToString } = params;
 
-	(0, _reactRouter.match)({ routes: routes, location: req.url }, function (error, redirectLocation, renderProps) {
+	match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
 		if (error) {
 			res.status(500).send(error.message);
 		} else if (redirectLocation) {
@@ -70,27 +47,25 @@ function defaultBeforeRenderToString(req, store, cb) {
 }
 
 function defaultAfterRenderToString(req, store, html_string, cb) {
-	cb.call(this, req, store, html_string);
+	cb.call(this, req, store, html_string, {});
 }
 
-var router = _express2['default'].Router();
+const router = express.Router();
 
-exports['default'] = function (params) {
-	var defaults = {
+export default function (params) {
+	const defaults = {
 		routes: null,
-		reducers: (0, _utils.getBasicReducers)(),
+		reducers: getBasicReducers(),
 		beforeRenderToString: defaultBeforeRenderToString,
 		afterRenderToString: defaultAfterRenderToString
 	};
 
 	params = Object.assign(defaults, params);
-	params.store = (0, _redux.createStore)(params.reducers);
+	params.store = createStore(params.reducers);
 
 	router.get('*', function (req, res, next) {
 		renderSite(req, res, params);
 	});
 
 	return router;
-};
-
-module.exports = exports['default'];
+}

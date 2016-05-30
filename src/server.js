@@ -19,9 +19,9 @@ function _doRenderSite(req, res, store, renderProps, beforeRenderToString, after
 		let html_string = renderSiteToString(store, renderProps)
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
-		afterRenderToString.call(this, req, store, html_string, (req, store, html_string) => {
+		afterRenderToString.call(this, req, store, html_string, (req, store, html_string, params) => {
 			const initial_state = store.getState()
-			res.status(200).send(createPage(html_string, { initial_state }))	
+			res.status(200).send(createPage(html_string, Object.assign(params, { initial_state })))	
 		})
 	})	
 }
@@ -47,7 +47,7 @@ function defaultBeforeRenderToString(req, store, cb) {
 }
 
 function defaultAfterRenderToString(req, store, html_string, cb) {
-	cb.call(this, req, store, html_string)
+	cb.call(this, req, store, html_string, {})
 }
 
 const router = express.Router()
