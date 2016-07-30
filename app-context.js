@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _react = require('react');
@@ -19,43 +19,43 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var func = _react2.default.PropTypes.func;
 
 var AppContext = _react2.default.createClass({
-  displayName: 'AppContext',
+	displayName: 'AppContext',
 
 
-  childContextTypes: {
-    insertCss: func
-  },
+	childContextTypes: {
+		insertCss: func
+	},
 
-  getChildContext: function getChildContext() {
-    return {
-      insertCss: this.props.insertCss
-    };
-  },
-  render: function render() {
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(_reactHelmet2.default, {
-        title: this.props.documentMeta.title,
-        htmlAttributes: this.props.documentMeta.htmlAttributes,
-        base: this.props.documentMeta.base,
-        meta: this.props.documentMeta.meta,
-        link: this.props.documentMeta.link,
-        script: this.props.documentMeta.script,
-        style: this.props.documentMeta.style,
-        onChangeClientState: function onChangeClientState(newState) {
-          return console.log(newState);
-        }
-      }),
-      this.props.children
-    );
-  }
+	getChildContext: function getChildContext() {
+		return {
+			insertCss: this.props.insertCss
+		};
+	},
+	render: function render() {
+		return _react2.default.createElement(
+			'div',
+			null,
+			_react2.default.createElement(_reactHelmet2.default, {
+				title: this.props.documentMeta.title,
+				htmlAttributes: this.props.documentMeta.htmlAttributes,
+				base: this.props.documentMeta.base,
+				meta: this.props.documentMeta.meta,
+				link: this.props.documentMeta.link,
+				script: this.props.documentMeta.script,
+				style: this.props.documentMeta.style,
+				onChangeClientState: function onChangeClientState(newState) {
+					return console.log(newState);
+				}
+			}),
+			this.props.children
+		);
+	}
 });
 
 function select(state) {
-  return {
-    documentMeta: state.documentMeta
-  };
+	return {
+		documentMeta: state.documentMeta
+	};
 }
 
 exports.default = (0, _reactRedux.connect)(select)(AppContext);

@@ -5,40 +5,40 @@ import Helmet from "react-helmet"
 const { func } = React.PropTypes
 const AppContext = React.createClass({
 
-  childContextTypes: {
-    insertCss: func
-  },
+	childContextTypes: {
+		insertCss: func
+	},
 
-  getChildContext() {
-    return {
-    	insertCss: this.props.insertCss
-    }
-  },
+	getChildContext() {
+		return {
+			insertCss: this.props.insertCss
+		}
+	},
 
-  render() {
-  	return (
-  		<div>
-        <Helmet 
-          title={this.props.documentMeta.title} 
-          htmlAttributes={this.props.documentMeta.htmlAttributes}
-          base={this.props.documentMeta.base}
-          meta={this.props.documentMeta.meta}
-          link={this.props.documentMeta.link}
-          script={this.props.documentMeta.script}
-          style={this.props.documentMeta.style}
-          onChangeClientState={(newState) => console.log(newState)}
-        />
-	  		{this.props.children}
-  		</div>
-  	)
-  }
+	render() {
+		return (
+			<div>
+				<Helmet 
+					title={this.props.documentMeta.title} 
+					htmlAttributes={this.props.documentMeta.htmlAttributes}
+					base={this.props.documentMeta.base}
+					meta={this.props.documentMeta.meta}
+					link={this.props.documentMeta.link}
+					script={this.props.documentMeta.script}
+					style={this.props.documentMeta.style}
+					onChangeClientState={(newState) => console.log(newState)}
+				/>
+				{this.props.children}
+			</div>
+		)
+	}
 
 })
 
 function select(state) {
-  return {
-    documentMeta: state.documentMeta
-  }
+	return {
+		documentMeta: state.documentMeta
+	}
 }
 
 export default connect(select)(AppContext)

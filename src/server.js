@@ -9,7 +9,11 @@ import Helmet from 'react-helmet'
 import { createPage, getBasicReducers } from './utils'
 import AppContext from './app-context'
 
-function renderSiteToString(store, renderProps, context) {
+// This is for use with isomorphic style loader
+let css = []; // CSS for all rendered React components
+let context = (styles) => css.push(styles._getCss())
+
+function renderSiteToString(store, renderProps) {
 	return renderToString(
 		<Provider store={store}>
 			<AppContext insertCss={context} >
@@ -20,14 +24,15 @@ function renderSiteToString(store, renderProps, context) {
 }
 
 function _doRenderSite(req, res, store, renderProps, beforeRenderToString, afterRenderToString) {
-	beforeRenderToString.call(this, req, store, (req, store, context = {}) => {
-		let html_string = renderSiteToString(store, renderProps, context)
+	beforeRenderToString.call(this, req, store, (req, store) => {
+		let html_string = renderSiteToString(store, renderProps)
 		let head = Helmet.rewind()			
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
-		afterRenderToString.call(this, req, store, html_string, (req, store, html_string, css) => {
+		afterRenderToString.call(this, req, store, html_string, (req, store, html_string) => {
 			const initial_state = store.getState()
-			res.status(200).send(createPage(html_string, { initial_state, css, meta: head }))	
+			res.status(200).send(createPage(html_string, { initial_state, css: css.join(''), meta: head }))
+			css = []
 		})
 	})	
 }

@@ -55,7 +55,13 @@ var _appContext2 = _interopRequireDefault(_appContext);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function renderSiteToString(store, renderProps, context) {
+// This is for use with isomorphic style loader
+var css = []; // CSS for all rendered React components
+var context = function context(styles) {
+	return css.push(styles._getCss());
+};
+
+function renderSiteToString(store, renderProps) {
 	return (0, _server.renderToString)(_react2.default.createElement(
 		_reactRedux.Provider,
 		{ store: store },
@@ -71,15 +77,14 @@ function _doRenderSite(req, res, store, renderProps, beforeRenderToString, after
 	var _this = this;
 
 	beforeRenderToString.call(this, req, store, function (req, store) {
-		var context = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-		var html_string = renderSiteToString(store, renderProps, context);
+		var html_string = renderSiteToString(store, renderProps);
 		var head = _reactHelmet2.default.rewind();
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
-		afterRenderToString.call(_this, req, store, html_string, function (req, store, html_string, css) {
+		afterRenderToString.call(_this, req, store, html_string, function (req, store, html_string) {
 			var initial_state = store.getState();
-			res.status(200).send((0, _utils.createPage)(html_string, { initial_state: initial_state, css: css, meta: head }));
+			res.status(200).send((0, _utils.createPage)(html_string, { initial_state: initial_state, css: css.join(''), meta: head }));
+			css = [];
 		});
 	});
 }
