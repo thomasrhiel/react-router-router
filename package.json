@@ -1,13 +1,19 @@
 {
   "name": "react-router-router",
-  "version": "0.0.17",
+  "version": "0.0.15",
   "description": "Simple Express.js router middleware for sites that use React Router.",
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel --presets react ./src -d ."
+    "build": "babel --presets react ./src -d .",
+    "start": "node server.js"
   },
-  "repository": "thomasrhiel/react-router-router",
-  "author": "Thomas Rhiel",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasrhiel/react-router-router.git"
+  },
+  "author": {
+    "name": "Thomas Rhiel"
+  },
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.4",
@@ -30,5 +36,36 @@
     "babel-preset-stage-0": "^6.5.0",
     "rimraf": "^2.5.2",
     "webpack": "^1.12.14"
-  }
+  },
+  "gitHead": "27fd8869a37abda17e88f106e6a916fb92541fde",
+  "bugs": {
+    "url": "https://github.com/thomasrhiel/react-router-router/issues"
+  },
+  "homepage": "https://github.com/thomasrhiel/react-router-router#readme",
+  "_id": "react-router-router@0.0.15",
+  "_shasum": "19abf7df00ddd0dc4caf9c59b19add81dc7b7737",
+  "_from": "react-router-router@0.0.15",
+  "_npmVersion": "3.4.1",
+  "_nodeVersion": "4.1.2",
+  "_npmUser": {
+    "name": "thomasrhiel",
+    "email": "thomasrhiel@gmail.com"
+  },
+  "dist": {
+    "shasum": "19abf7df00ddd0dc4caf9c59b19add81dc7b7737",
+    "tarball": "https://registry.npmjs.org/react-router-router/-/react-router-router-0.0.15.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "thomasrhiel",
+      "email": "thomasrhiel@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/react-router-router-0.0.15.tgz_1460406740985_0.14323403593152761"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/react-router-router/-/react-router-router-0.0.15.tgz",
+  "readme": "ERROR: No README data found!"
 }

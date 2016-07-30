@@ -6,22 +6,29 @@ import { renderToString } from 'react-dom/server'
 import { match, RouterContext } from 'react-router'
 import { createPage, getBasicReducers } from './utils'
 
-function renderSiteToString(store, renderProps) {
+
+import AppContext from './app-context'
+
+
+function renderSiteToString(store, renderProps, context) {
 	return renderToString(
-		<Provider store={store}>
-			<RouterContext {...renderProps} />
-		</Provider>
+		<AppContext insertCss={context} >
+			<Provider store={store}>
+				<RouterContext {...renderProps} />
+			</Provider>
+		</AppContext>
 	)
 }
 
 function _doRenderSite(req, res, store, renderProps, beforeRenderToString, afterRenderToString) {
-	beforeRenderToString.call(this, req, store, (req, store) => {
-		let html_string = renderSiteToString(store, renderProps)
+	beforeRenderToString.call(this, req, store, (req, store, context = {}) => {
+		let html_string = renderSiteToString(store, renderProps, context)
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
-		afterRenderToString.call(this, req, store, html_string, (req, store, html_string, params) => {
+		afterRenderToString.call(this, req, store, html_string, (req, store, html_string, css) => {
 			const initial_state = store.getState()
-			res.status(200).send(createPage(html_string, Object.assign(params, { initial_state })))	
+			console.log(css)
+			res.status(200).send(createPage(html_string, { initial_state, css }))	
 		})
 	})	
 }
@@ -47,7 +54,7 @@ function defaultBeforeRenderToString(req, store, cb) {
 }
 
 function defaultAfterRenderToString(req, store, html_string, cb) {
-	cb.call(this, req, store, html_string, {})
+	cb.call(this, req, store, html_string)
 }
 
 const router = express.Router()

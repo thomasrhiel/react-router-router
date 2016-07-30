@@ -11,18 +11,18 @@ var _redux = require('redux');
 var _reactRouterRedux = require('react-router-redux');
 
 function createPage(html, opts) {
-	var default_meta = '\n\t\t\t<title></title>\n\t\t\t<meta charset="utf-8"/>\t\t\t\n\t\t\t<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>\n\t\t';
-
 	var params = {
 		id: 'app',
 		js_src: 'main.js',
 		initial_state: {},
-		meta: default_meta
+		css: null
 	};
 
 	Object.assign(params, opts || {});
 
-	return '\n\t<!doctype html>\n\t<html>\n\t\t<head>\n\t\t\t' + params.meta + '\n\t\t</head>\n\t\t<body>\n\t\t\t<div id="' + params.id + '">' + html + '</div>\n\t\t\t<script>\n\t\t\t\twindow.__INITIAL_STATE__ = ' + JSON.stringify(params.initial_state) + '\n\t\t\t</script>\t\t\t\n\t\t\t<script src="' + params.js_src + '"></script>\n\t\t</body>\n\t</html>\n\t';
+	var css = params.css ? '<style type="text/css">' + params.css + '</style>' : '';
+
+	return '\n\t<!doctype html>\n\t<html>\n\t\t<head>\n\t\t\t<title></title>\n\t\t\t<meta charset="utf-8"/>\t\t\t\n\t\t\t<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>\n\t\t\t' + css + '\t\t\n\t\t</head>\n\t\t<body>\n\t\t\t<div id="' + params.id + '">' + html + '</div>\n\t\t\t<script>\n\t\t\t\twindow.__INITIAL_STATE__ = ' + JSON.stringify(params.initial_state) + '\n\t\t\t</script>\t\t\t\n\t\t\t<script src="' + params.js_src + '"></script>\n\t\t</body>\n\t</html>\n\t';
 }
 
 function getBasicReducers() {

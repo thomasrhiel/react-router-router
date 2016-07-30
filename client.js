@@ -17,11 +17,19 @@ exports.default = function (params) {
 	var initialState = window.__INITIAL_STATE__;
 	var store = (0, _redux.createStore)(reducers, initialState);
 
+	var context = function context(styles) {
+		return styles._insertCss();
+	};
+
 	(0, _reactRouter.match)({ routes: routes, location: location }, function () {
 		(0, _reactDom.render)(_react2.default.createElement(
-			_reactRedux.Provider,
-			{ store: store },
-			_react2.default.createElement(_reactRouter.Router, { routes: routes, history: _reactRouter.browserHistory })
+			_appContext2.default,
+			{ insertCss: context },
+			_react2.default.createElement(
+				_reactRedux.Provider,
+				{ store: store },
+				_react2.default.createElement(_reactRouter.Router, { routes: routes, history: _reactRouter.browserHistory })
+			)
 		), document.getElementById('app'));
 	});
 };
@@ -39,5 +47,9 @@ var _reactRouter = require('react-router');
 var _reactDom = require('react-dom');
 
 var _utils = require('./utils');
+
+var _appContext = require('./app-context');
+
+var _appContext2 = _interopRequireDefault(_appContext);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
