@@ -13,7 +13,7 @@ let router = RouterServer({ routes, reducers })
 
 app.set('port', (process.env.PORT || 5000))
 
-// The page will look for a JavaScript file at `main.js`.
+// The page will look for a JavaScript file at `main.js`. 
 // I’m webpacking the client script to `public/main.js` and using the `public/` directory for static assets
 app.use(express.static('public'))
 app.use('/', router);
