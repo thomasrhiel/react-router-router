@@ -35,7 +35,15 @@ var AppContext = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(_reactHelmet2.default, { title: this.props.documentMeta.title }),
+      _react2.default.createElement(_reactHelmet2.default, {
+        title: this.props.documentMeta.title,
+        htmlAttributes: this.props.documentMeta.htmlAttributes,
+        base: this.props.documentMeta.base,
+        meta: this.props.documentMeta.meta,
+        link: this.props.documentMeta.link,
+        script: this.props.documentMeta.script,
+        style: this.props.documentMeta.style
+      }),
       this.props.children
     );
   }

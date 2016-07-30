@@ -18,7 +18,15 @@ const AppContext = React.createClass({
   render() {
   	return (
   		<div>
-        <Helmet title={this.props.documentMeta.title} />
+        <Helmet 
+          title={this.props.documentMeta.title} 
+          htmlAttributes={this.props.documentMeta.htmlAttributes}
+          base={this.props.documentMeta.base}
+          meta={this.props.documentMeta.meta}
+          link={this.props.documentMeta.link}
+          script={this.props.documentMeta.script}
+          style={this.props.documentMeta.style} 
+        />
 	  		{this.props.children}
   		</div>
   	)

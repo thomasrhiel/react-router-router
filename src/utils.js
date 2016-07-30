@@ -12,17 +12,15 @@ export function createPage(html, opts) {
 
 	Object.assign(params, opts || {})
 
-	console.log(params.meta)
-
 	const css = params.css ? `<style type="text/css">${params.css}</style>` : ''
+	const html_tag = params.meta.htmlAttributes.toString() !== '' ? `<html ${params.meta.htmlAttributes.toString()}>` : `<html>`
 
 	return `
-	<!doctype html>
-	<html>
+	<!doctype>
+	${html_tag}
 		<head>
 			${params.meta.title.toString()}
-			<meta charset="utf-8"/>			
-			<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>
+			${params.meta.meta.toString()}
 			${css}		
 		</head>
 		<body>
@@ -37,11 +35,19 @@ export function createPage(html, opts) {
 }
 
 const initialDocumentMeta = {
-	title: 'My Sick-Ass Title'
+	htmlAttributes: {},
+	title: '',
+	base: {},
+	meta: [],
+	link: [], 
+	script: [],
+	style: []
 }
 
 function documentMeta(state = initialDocumentMeta, action) {
 	switch(action.type) {
+		case 'UPDATE_DOCUMENT_META':
+			return Object.assign({}, state, action.payload)
 		default:
 			return state
 	}
