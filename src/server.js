@@ -6,9 +6,7 @@ import { renderToString } from 'react-dom/server'
 import { match, RouterContext } from 'react-router'
 import { createPage, getBasicReducers } from './utils'
 
-
 import AppContext from './app-context'
-
 
 function renderSiteToString(store, renderProps, context) {
 	return renderToString(
