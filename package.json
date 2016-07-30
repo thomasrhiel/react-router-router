@@ -1,6 +1,6 @@
 {
   "name": "react-router-router",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Simple Express.js router middleware for sites that use React Router.",
   "main": "lib/index.js",
   "scripts": {
