@@ -54,9 +54,6 @@ export default routes
 ### Reducers
 
 ```javascript
-import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
-
 // A sample Redux reducer
 function text(state = 'Call me Ishmael.', action) {
   switch (action.type) {
@@ -67,8 +64,7 @@ function text(state = 'Call me Ishmael.', action) {
     }
 }
 
-export default combineReducers({
-  text,
-  routing: routerReducer
-})
+export default {
+  text
+}
 ```
