@@ -27,7 +27,6 @@ function _doRenderSite(req, res, store, renderProps, beforeRenderToString, after
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
 		afterRenderToString.call(this, req, store, html_string, (req, store, html_string, css) => {
 			const initial_state = store.getState()
-			console.log(css)
 			res.status(200).send(createPage(html_string, { initial_state, css }))	
 		})
 	})	

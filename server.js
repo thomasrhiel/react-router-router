@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
 exports.default = function (params) {
 	var defaults = {
 		routes: null,
@@ -12,7 +16,7 @@ exports.default = function (params) {
 		afterRenderToString: defaultAfterRenderToString
 	};
 
-	params = Object.assign(defaults, params);
+	params = (0, _assign2.default)(defaults, params);
 	params.store = (0, _redux.createStore)(params.reducers);
 
 	router.get('*', function (req, res, next) {
@@ -69,7 +73,6 @@ function _doRenderSite(req, res, store, renderProps, beforeRenderToString, after
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
 		afterRenderToString.call(_this, req, store, html_string, function (req, store, html_string, css) {
 			var initial_state = store.getState();
-			console.log(css);
 			res.status(200).send((0, _utils.createPage)(html_string, { initial_state: initial_state, css: css }));
 		});
 	});
