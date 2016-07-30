@@ -21,6 +21,10 @@ export function createPage(html, opts) {
 		<head>
 			${params.meta.title.toString()}
 			${params.meta.meta.toString()}
+			${params.meta.base.toString()}
+			${params.meta.link.toString()}
+			${params.meta.style.toString()}
+			${params.meta.script.toString()}
 			${css}		
 		</head>
 		<body>

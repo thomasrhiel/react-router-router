@@ -4,11 +4,9 @@ import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { renderToString } from 'react-dom/server'
 import { match, RouterContext } from 'react-router'
-
 import Helmet from 'react-helmet'
 
 import { createPage, getBasicReducers } from './utils'
-
 import AppContext from './app-context'
 
 function renderSiteToString(store, renderProps, context) {

@@ -35,7 +35,7 @@ function createPage(html, opts) {
 	var css = params.css ? '<style type="text/css">' + params.css + '</style>' : '';
 	var html_tag = params.meta.htmlAttributes.toString() !== '' ? '<html ' + params.meta.htmlAttributes.toString() + '>' : '<html>';
 
-	return '\n\t<!doctype>\n\t' + html_tag + '\n\t\t<head>\n\t\t\t' + params.meta.title.toString() + '\n\t\t\t' + params.meta.meta.toString() + '\n\t\t\t<meta charset="utf-8"/>\t\t\t\n\t\t\t<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>\n\t\t\t' + css + '\t\t\n\t\t</head>\n\t\t<body>\n\t\t\t<div id="' + params.id + '">' + html + '</div>\n\t\t\t<script>\n\t\t\t\twindow.__INITIAL_STATE__ = ' + (0, _stringify2.default)(params.initial_state) + '\n\t\t\t</script>\t\t\t\n\t\t\t<script src="' + params.js_src + '"></script>\n\t\t</body>\n\t</html>\n\t';
+	return '\n\t<!doctype>\n\t' + html_tag + '\n\t\t<head>\n\t\t\t' + params.meta.title.toString() + '\n\t\t\t' + params.meta.meta.toString() + '\n\t\t\t' + params.meta.base.toString() + '\n\t\t\t' + params.meta.link.toString() + '\n\t\t\t' + params.meta.style.toString() + '\n\t\t\t' + params.meta.script.toString() + '\n\t\t\t' + css + '\t\t\n\t\t</head>\n\t\t<body>\n\t\t\t<div id="' + params.id + '">' + html + '</div>\n\t\t\t<script>\n\t\t\t\twindow.__INITIAL_STATE__ = ' + (0, _stringify2.default)(params.initial_state) + '\n\t\t\t</script>\t\t\t\n\t\t\t<script src="' + params.js_src + '"></script>\n\t\t</body>\n\t</html>\n\t';
 }
 
 var initialDocumentMeta = {
