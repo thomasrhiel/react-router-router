@@ -42,7 +42,10 @@ var AppContext = _react2.default.createClass({
         meta: this.props.documentMeta.meta,
         link: this.props.documentMeta.link,
         script: this.props.documentMeta.script,
-        style: this.props.documentMeta.style
+        style: this.props.documentMeta.style,
+        onChangeClientState: function onChangeClientState(newState) {
+          return console.log(newState);
+        }
       }),
       this.props.children
     );
