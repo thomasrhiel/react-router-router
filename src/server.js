@@ -1,31 +1,35 @@
 import express from 'express'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import { renderToString } from 'react-dom/server'
 import { match, RouterContext } from 'react-router'
+
+import Helmet from 'react-helmet'
+
 import { createPage, getBasicReducers } from './utils'
 
 import AppContext from './app-context'
 
 function renderSiteToString(store, renderProps, context) {
 	return renderToString(
-		<AppContext insertCss={context} >
-			<Provider store={store}>
+		<Provider store={store}>
+			<AppContext insertCss={context} >
 				<RouterContext {...renderProps} />
-			</Provider>
-		</AppContext>
+			</AppContext>
+		</Provider>
 	)
 }
 
 function _doRenderSite(req, res, store, renderProps, beforeRenderToString, afterRenderToString) {
 	beforeRenderToString.call(this, req, store, (req, store, context = {}) => {
 		let html_string = renderSiteToString(store, renderProps, context)
+		let head = Helmet.rewind()
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
 		afterRenderToString.call(this, req, store, html_string, (req, store, html_string, css) => {
 			const initial_state = store.getState()
-			res.status(200).send(createPage(html_string, { initial_state, css }))	
+			res.status(200).send(createPage(html_string, { initial_state, css, meta: head }))	
 		})
 	})	
 }
@@ -59,13 +63,14 @@ const router = express.Router()
 export default function(params) {
 	const defaults = {
 		routes: null,
-		reducers: getBasicReducers(),
+		reducers: {},
 		beforeRenderToString: defaultBeforeRenderToString,
 		afterRenderToString: defaultAfterRenderToString
 	}
 
 	params = Object.assign(defaults, params)
-	params.store = createStore(params.reducers)
+	params.reducers = Object.assign(getBasicReducers())
+	params.store = createStore(combineReducers(params.reducers))
 
 	router.get('*', function(req, res, next) {
 		renderSite(req, res, params)

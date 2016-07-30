@@ -26,20 +26,38 @@ function createPage(html, opts) {
 		id: 'app',
 		js_src: 'main.js',
 		initial_state: {},
-		css: null
+		css: null,
+		meta: null
 	};
 
 	(0, _assign2.default)(params, opts || {});
 
+	console.log(params.meta);
+
 	var css = params.css ? '<style type="text/css">' + params.css + '</style>' : '';
 
-	return '\n\t<!doctype html>\n\t<html>\n\t\t<head>\n\t\t\t<title></title>\n\t\t\t<meta charset="utf-8"/>\t\t\t\n\t\t\t<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>\n\t\t\t' + css + '\t\t\n\t\t</head>\n\t\t<body>\n\t\t\t<div id="' + params.id + '">' + html + '</div>\n\t\t\t<script>\n\t\t\t\twindow.__INITIAL_STATE__ = ' + (0, _stringify2.default)(params.initial_state) + '\n\t\t\t</script>\t\t\t\n\t\t\t<script src="' + params.js_src + '"></script>\n\t\t</body>\n\t</html>\n\t';
+	return '\n\t<!doctype html>\n\t<html>\n\t\t<head>\n\t\t\t' + params.meta.title.toString() + '\n\t\t\t<meta charset="utf-8"/>\t\t\t\n\t\t\t<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>\n\t\t\t' + css + '\t\t\n\t\t</head>\n\t\t<body>\n\t\t\t<div id="' + params.id + '">' + html + '</div>\n\t\t\t<script>\n\t\t\t\twindow.__INITIAL_STATE__ = ' + (0, _stringify2.default)(params.initial_state) + '\n\t\t\t</script>\t\t\t\n\t\t\t<script src="' + params.js_src + '"></script>\n\t\t</body>\n\t</html>\n\t';
+}
+
+var initialDocumentMeta = {
+	title: 'My Sick-Ass Title'
+};
+
+function documentMeta() {
+	var state = arguments.length <= 0 || arguments[0] === undefined ? initialDocumentMeta : arguments[0];
+	var action = arguments[1];
+
+	switch (action.type) {
+		default:
+			return state;
+	}
 }
 
 function getBasicReducers() {
 	var basic_reducers = {
-		routing: _reactRouterRedux.routerReducer
+		routing: _reactRouterRedux.routerReducer,
+		documentMeta: documentMeta
 	};
 
-	return (0, _redux.combineReducers)(basic_reducers);
+	return basic_reducers;
 }

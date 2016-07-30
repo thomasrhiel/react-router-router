@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore } from 'redux'
 import { routerReducer } from 'react-router-redux'
 
 export function createPage(html, opts) {
@@ -6,10 +6,13 @@ export function createPage(html, opts) {
 		id: 'app',
 		js_src: 'main.js',
 		initial_state: {}, 
-		css: null
+		css: null, 
+		meta: null
 	}
 
 	Object.assign(params, opts || {})
+
+	console.log(params.meta)
 
 	const css = params.css ? `<style type="text/css">${params.css}</style>` : ''
 
@@ -17,7 +20,7 @@ export function createPage(html, opts) {
 	<!doctype html>
 	<html>
 		<head>
-			<title></title>
+			${params.meta.title.toString()}
 			<meta charset="utf-8"/>			
 			<meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1, initial-scale=1"/>
 			${css}		
@@ -33,10 +36,22 @@ export function createPage(html, opts) {
 	`
 }
 
+const initialDocumentMeta = {
+	title: 'My Sick-Ass Title'
+}
+
+function documentMeta(state = initialDocumentMeta, action) {
+	switch(action.type) {
+		default:
+			return state
+	}
+}
+
 export function getBasicReducers() {
 	const basic_reducers = {
-		routing: routerReducer
+		routing: routerReducer,
+		documentMeta: documentMeta
 	}
 
-	return combineReducers(basic_reducers)
+	return basic_reducers
 }

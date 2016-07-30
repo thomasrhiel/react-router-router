@@ -11,13 +11,14 @@ var _assign2 = _interopRequireDefault(_assign);
 exports.default = function (params) {
 	var defaults = {
 		routes: null,
-		reducers: (0, _utils.getBasicReducers)(),
+		reducers: {},
 		beforeRenderToString: defaultBeforeRenderToString,
 		afterRenderToString: defaultAfterRenderToString
 	};
 
 	params = (0, _assign2.default)(defaults, params);
-	params.store = (0, _redux.createStore)(params.reducers);
+	params.reducers = (0, _assign2.default)((0, _utils.getBasicReducers)());
+	params.store = (0, _redux.createStore)((0, _redux.combineReducers)(params.reducers));
 
 	router.get('*', function (req, res, next) {
 		renderSite(req, res, params);
@@ -42,6 +43,10 @@ var _server = require('react-dom/server');
 
 var _reactRouter = require('react-router');
 
+var _reactHelmet = require('react-helmet');
+
+var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
+
 var _utils = require('./utils');
 
 var _appContext = require('./app-context');
@@ -52,11 +57,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function renderSiteToString(store, renderProps, context) {
 	return (0, _server.renderToString)(_react2.default.createElement(
-		_appContext2.default,
-		{ insertCss: context },
+		_reactRedux.Provider,
+		{ store: store },
 		_react2.default.createElement(
-			_reactRedux.Provider,
-			{ store: store },
+			_appContext2.default,
+			{ insertCss: context },
 			_react2.default.createElement(_reactRouter.RouterContext, renderProps)
 		)
 	));
@@ -69,11 +74,12 @@ function _doRenderSite(req, res, store, renderProps, beforeRenderToString, after
 		var context = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
 		var html_string = renderSiteToString(store, renderProps, context);
+		var head = _reactHelmet2.default.rewind();
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
 		afterRenderToString.call(_this, req, store, html_string, function (req, store, html_string, css) {
 			var initial_state = store.getState();
-			res.status(200).send((0, _utils.createPage)(html_string, { initial_state: initial_state, css: css }));
+			res.status(200).send((0, _utils.createPage)(html_string, { initial_state: initial_state, css: css, meta: head }));
 		});
 	});
 }

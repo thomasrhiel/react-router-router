@@ -1,7 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import Helmet from "react-helmet"
 
 const { func } = React.PropTypes
-export default React.createClass({
+const AppContext = React.createClass({
 
   childContextTypes: {
     insertCss: func
@@ -16,9 +18,18 @@ export default React.createClass({
   render() {
   	return (
   		<div>
+        <Helmet title={this.props.documentMeta.title} />
 	  		{this.props.children}
   		</div>
   	)
   }
 
 })
+
+function select(state) {
+  return {
+    documentMeta: state.documentMeta
+  }
+}
+
+export default connect(select)(AppContext)
