@@ -17,7 +17,7 @@ exports.default = function (params) {
 	};
 
 	params = (0, _assign2.default)(defaults, params);
-	params.reducers = (0, _assign2.default)((0, _utils.getBasicReducers)());
+	params.reducers = (0, _assign2.default)(params.reducers, (0, _utils.getBasicReducers)());
 	params.store = (0, _redux.createStore)((0, _redux.combineReducers)(params.reducers));
 
 	router.get('*', function (req, res, next) {

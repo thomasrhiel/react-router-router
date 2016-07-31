@@ -72,7 +72,7 @@ export default function(params) {
 	}
 
 	params = Object.assign(defaults, params)
-	params.reducers = Object.assign(getBasicReducers())
+	params.reducers = Object.assign(params.reducers, getBasicReducers())
 	params.store = createStore(combineReducers(params.reducers))
 
 	router.get('*', function(req, res, next) {
