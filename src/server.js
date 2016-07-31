@@ -26,12 +26,12 @@ function renderSiteToString(store, renderProps) {
 function _doRenderSite(req, res, store, renderProps, beforeRenderToString, afterRenderToString) {
 	beforeRenderToString.call(this, req, store, (req, store) => {
 		let html_string = renderSiteToString(store, renderProps)
-		let head = Helmet.rewind()			
+		Helmet.rewind()			
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
 		afterRenderToString.call(this, req, store, html_string, (req, store, html_string) => {
 			const initial_state = store.getState()
-			res.status(200).send(createPage(html_string, { initial_state, css: css.join(''), meta: head }))
+			res.status(200).send(createPage(html_string, { initial_state, css: css.join('') }))
 			css = []
 		})
 	})	

@@ -78,12 +78,12 @@ function _doRenderSite(req, res, store, renderProps, beforeRenderToString, after
 
 	beforeRenderToString.call(this, req, store, function (req, store) {
 		var html_string = renderSiteToString(store, renderProps);
-		var head = _reactHelmet2.default.rewind();
+		_reactHelmet2.default.rewind();
 
 		// there's an opportunity here to pass more arguments to the html renderer (e.g., react-document-title)
 		afterRenderToString.call(_this, req, store, html_string, function (req, store, html_string) {
 			var initial_state = store.getState();
-			res.status(200).send((0, _utils.createPage)(html_string, { initial_state: initial_state, css: css.join(''), meta: head }));
+			res.status(200).send((0, _utils.createPage)(html_string, { initial_state: initial_state, css: css.join('') }));
 			css = [];
 		});
 	});

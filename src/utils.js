@@ -59,8 +59,7 @@ export function createPage(html, opts) {
 		id: 'app',
 		js_src: 'main.js',
 		initial_state: {}, 
-		css: null, 
-		meta: null
+		css: null
 	}
 
 	Object.assign(params, opts || {})

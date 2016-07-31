@@ -74,8 +74,7 @@ function createPage(html, opts) {
 		id: 'app',
 		js_src: 'main.js',
 		initial_state: {},
-		css: null,
-		meta: null
+		css: null
 	};
 
 	(0, _assign2.default)(params, opts || {});
