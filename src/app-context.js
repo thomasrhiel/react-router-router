@@ -26,7 +26,6 @@ const AppContext = React.createClass({
 					link={this.props.documentMeta.link}
 					script={this.props.documentMeta.script}
 					style={this.props.documentMeta.style}
-					onChangeClientState={(newState) => console.log(newState)}
 				/>
 				{this.props.children}
 			</div>
