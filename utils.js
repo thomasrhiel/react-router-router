@@ -72,7 +72,7 @@ var generateTagsAsString = function generateTagsAsString(type, tags) {
 function createPage(html, opts) {
 	var params = {
 		id: 'app',
-		js_src: 'main.js',
+		js_src: '/main.js',
 		initial_state: {},
 		css: null
 	};

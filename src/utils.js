@@ -57,7 +57,7 @@ const generateTagsAsString = (type, tags) => {
 export function createPage(html, opts) {
 	let params = {
 		id: 'app',
-		js_src: 'main.js',
+		js_src: '/main.js',
 		initial_state: {}, 
 		css: null
 	}
